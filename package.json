@@ -8,7 +8,8 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "format": "npx prettier ./src --write"
+    "format": "npx prettier ./src --write",
+    "commit": "cz"
   },
   "author": "",
   "license": "ISC",
@@ -20,8 +21,14 @@
     "@types/node": "^20.4.2",
     "commitizen": "^4.3.0",
     "concurrently": "^8.2.0",
+    "cz-conventional-changelog": "^3.3.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
