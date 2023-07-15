@@ -5,12 +5,21 @@ class RoomService {
   private static prisma = new PrismaClient();
 
   public static async createRoom(room: Room) {
-    const res = await this.prisma.room.create({ data: room });
+    const roomDefault = {
+      ...room,
+      createdAt: new Date()
+    }
+
+    const res = await this.prisma.room.create({ data: roomDefault });
+    await this.prisma.$disconnect();
+
     return res;
   }
 
   public static async getAllRooms() {
-    return await this.prisma.room.findMany();
+    const res = await this.prisma.room.findMany();
+    await this.prisma.$disconnect();
+    return res
   }
 }
 
