@@ -1,4 +1,4 @@
-import { Room } from "../models/room.model";
+import { Room } from "./room.model";
 import { PrismaClient } from "@prisma/client";
 
 class RoomService {
