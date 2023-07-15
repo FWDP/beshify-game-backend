@@ -6,13 +6,11 @@ const port = 3000;
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello Warudoo");
+  res.send("Beshify API");
 });
 
-// Import controllers
-import RoomController from "./controllers/room.controller";
-
-app.use("/room", RoomController);
+import { AppModule } from "./server.module";
+AppModule.Load(app);
 
 app.listen(port, () => {
   console.log(`serving on ${port}`);
