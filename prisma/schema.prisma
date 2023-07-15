@@ -10,3 +10,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Room {
+  roomId String @id @default(auto()) @map("_id") @db.ObjectId
+  roomName String
+  password String
+  roomSize Int
+  timeLimit Int
+  createdAt DateTime @default(now()) @db.Date
+  players Player[]
+}
+
+model Player {
+  playerId String @id @default(auto()) @map("_id") @db.ObjectId
+  playerName String
+  createdAt DateTime @default(now()) @db.Date
+  statement String?
+  roomId String? @db.ObjectId
+  room Room? @relation(fields: [roomId], references: [roomId])
+}
+
+
+// Room and Player collections have a four (4) hour TimeToLive (expiration)
