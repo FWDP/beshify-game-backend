@@ -12,13 +12,17 @@ class RoomService {
 
     const res = await this.prisma.room.create({ data: roomDefault });
     await this.prisma.$disconnect();
-
     return res;
   }
 
   public static async getAllRooms() {
     const res = await this.prisma.room.findMany();
     await this.prisma.$disconnect();
+    return res
+  }
+
+  public static async deleteRoom(id: string) {
+    const res = await this.prisma.room.delete({where: {roomId: id}});
     return res
   }
 }
