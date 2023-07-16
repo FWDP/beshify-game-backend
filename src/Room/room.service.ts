@@ -23,6 +23,7 @@ class RoomService {
 
   public static async deleteRoom(id: string) {
     const res = await this.prisma.room.delete({where: {roomId: id}});
+    await this.prisma.$disconnect();
     return res
   }
 }
