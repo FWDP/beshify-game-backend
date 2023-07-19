@@ -12,7 +12,7 @@ class RoomService {
 
     const res = await this.prisma.room.create({ data: roomDefault });
     await this.prisma.$disconnect();
-    return res;
+    return { roomId: res.roomId };
   }
 
   public static async getAllRooms() {
