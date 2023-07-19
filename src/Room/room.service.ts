@@ -10,6 +10,16 @@ class RoomService {
       createdAt: new Date(),
     };
 
+    const existingRoom = await this.prisma.room.findFirst({
+      where: {
+        roomName: room.roomName,
+      },
+    });
+
+    if (existingRoom) {
+      throw new Error("Room already exists");
+    }
+
     const res = await this.prisma.room.create({ data: roomDefault });
     await this.prisma.$disconnect();
     return { roomId: res.roomId };

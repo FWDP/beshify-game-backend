@@ -23,7 +23,7 @@ RoomController.post("/", async (req: Request, res: Response) => {
     const data = await RoomService.createRoom(req.body);
     return res.json(data);
   } catch (err) {
-    return res.status(500).send(err);
+    return res.status(400).send({ errors: [{ msg: `${err}` }] });
   }
 });
 
