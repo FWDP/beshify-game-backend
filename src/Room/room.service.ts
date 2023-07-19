@@ -7,8 +7,8 @@ class RoomService {
   public static async createRoom(room: Room) {
     const roomDefault = {
       ...room,
-      createdAt: new Date()
-    }
+      createdAt: new Date(),
+    };
 
     const res = await this.prisma.room.create({ data: roomDefault });
     await this.prisma.$disconnect();
@@ -18,13 +18,13 @@ class RoomService {
   public static async getAllRooms() {
     const res = await this.prisma.room.findMany();
     await this.prisma.$disconnect();
-    return res
+    return res;
   }
 
   public static async deleteRoom(id: string) {
-    const res = await this.prisma.room.delete({where: {roomId: id}});
+    const res = await this.prisma.room.delete({ where: { roomId: id } });
     await this.prisma.$disconnect();
-    return res
+    return res;
   }
 }
 
