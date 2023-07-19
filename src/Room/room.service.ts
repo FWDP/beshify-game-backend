@@ -17,7 +17,7 @@ class RoomService {
     });
 
     if (existingRoom) {
-      throw new Error("Room already exists");
+      return { errors: [{ msg: "Room already exists!" }] };
     }
 
     const res = await this.prisma.room.create({ data: roomDefault });
