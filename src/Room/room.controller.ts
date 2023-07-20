@@ -9,7 +9,18 @@ RoomController.get("/", async (req: Request, res: Response) => {
   res.json(await RoomService.getAllRooms());
 });
 
-// RoomController.get("/:id", RoomService.idBlyat);
+RoomController.get("/:name", async (req: Request, res: Response) => {
+  try {
+    const data = await RoomService.getRoom(req.params["name"]);
+    if ("errors" in data) {
+      return res.status(400).json({ errors: data.errors });
+    }
+    res.status(201);
+    return res.json(data);
+  } catch (err) {
+    return res.status(500).send(`${err}`);
+  }
+});
 
 RoomController.post("/", async (req: Request, res: Response) => {
   try {

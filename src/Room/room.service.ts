@@ -30,7 +30,20 @@ class RoomService {
     await this.prisma.$disconnect();
     return res;
   }
-
+  public static async getRoom(name: string) {
+    const res = await this.prisma.room.findMany({
+      where: {
+        roomName: {
+          contains: name,
+        },
+      },
+    });
+    if (!res) {
+      return { errors: [{ msg: "Room doesn't exists!" }] };
+    }
+    await this.prisma.$disconnect();
+    return res;
+  }
   public static async deleteRoom(id: string) {
     const res = await this.prisma.room.delete({ where: { roomId: id } });
     await this.prisma.$disconnect();
