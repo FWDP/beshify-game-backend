@@ -1,7 +1,8 @@
 export interface Room {
-  roomId: string;
+  id: string;
   roomName: string;
   password: string;
   roomSize: number;
+  hostName: string;
   timeLimit: number;
 }
