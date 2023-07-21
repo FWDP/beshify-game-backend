@@ -11,22 +11,23 @@ datasource db {
 }
 
 model Room {
-  roomId String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
   roomName String
   password String
   roomSize Int
   timeLimit Int
   createdAt DateTime @default(now()) @db.Date
+  hostName String
   players Player[]
 }
 
 model Player {
-  playerId String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
   playerName String
   createdAt DateTime @default(now()) @db.Date
   statement String?
-  roomId String? @db.ObjectId
-  room Room? @relation(fields: [roomId], references: [roomId])
+  roomId String? @unique @db.ObjectId
+  room Room? @relation(fields: [roomId], references: [id])
 }
 
 
