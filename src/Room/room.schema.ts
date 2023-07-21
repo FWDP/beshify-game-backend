@@ -28,7 +28,7 @@ export const createRoomSchema = {
     },
   },
   hostName: {
-    errorMessage: "There should be a host name",
+    errorMessage: "There should be a host name!",
     isLength: {
       options: {
         min: 1,
@@ -49,7 +49,7 @@ export const createRoomSchema = {
 
 export const joinRoomSchema = {
   playerName: {
-    errorMessage: "There should be a player name",
+    errorMessage: "There should be a player name!",
     isLength: {
       options: {
         min: 1,
@@ -66,7 +66,7 @@ export const joinRoomSchema = {
     },
   },
   roomName: {
-    errorMessage: "There should be a room name",
+    errorMessage: "There should be a room name!",
     isLength: {
       options: {
         min: 1,
