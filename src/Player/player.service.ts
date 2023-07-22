@@ -9,16 +9,17 @@ class PlayerService {
    * @returns an object that contains the player ID
    */
   public static async createPlayer(player: Player) {
-    const playerDefault = {
-      ...player,
-      roomId: null,
-      statement: null,
-      createdAt: new Date(),
-    };
-
+    const { statements, ...playerDefault } = player;
     const existingPlayer = await this.prisma.player.findFirst({
       where: {
         playerName: player.playerName,
+      },
+    });
+    const playerInfo = await this.prisma.player.create({
+      data: {
+        ...playerDefault,
+        roomId: null,
+        createdAt: new Date(),
       },
     });
 
@@ -26,11 +27,8 @@ class PlayerService {
       return { errors: [{ msg: "Player already exists!" }] };
     }
 
-    const res = await this.prisma.player.create({ data: playerDefault });
-    await this.prisma.$disconnect();
-    return { playerId: res.id };
+    return { player: playerInfo };
   }
-
   //   public static async getAllRooms() {
   //     const res = await this.prisma.room.findMany();
   //     await this.prisma.$disconnect();
