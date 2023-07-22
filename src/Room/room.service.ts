@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 class RoomService {
   private static prisma = new PrismaClient();
+  public static readonly chatRooms: String[] = [];
 
   private static async getRoomsInfo(
     rooms: any[],
