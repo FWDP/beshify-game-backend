@@ -18,31 +18,14 @@ class PlayerService {
       },
     });
 
-    if (statements && statements.length > 0) {
-      try {
-        const statementObjects = statements.map((statementText) => ({
-          text: statementText,
-          votes: 0,
-          playerId: playerInfo.id,
-        }));
+    const existingPlayer = await this.prisma.player.findFirst({
+      where: {
+        playerName: player.playerName,
+      },
+    });
 
-        await this.prisma.statement.createMany({
-          data: statementObjects,
-        });
-
-        const playerWithStatements = await this.prisma.player.findUnique({
-          where: {
-            id: playerInfo.id,
-          },
-          include: {
-            statements: true,
-          },
-        });
-
-        return { player: playerWithStatements };
-      } catch (error) {
-        return { errors: [{ msg: "Failed to create player with statements" }] };
-      }
+    if (existingPlayer) {
+      return { errors: [{ msg: "Player already exists!" }] };
     }
 
     return { player: playerInfo };
