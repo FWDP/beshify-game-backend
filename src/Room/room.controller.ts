@@ -10,7 +10,7 @@ io.on("connection", async (socket) => {
   RoomService.chatRooms.map((rID: String) => {
     socket.on(`${rID}:connect`, (data) => {
       socket.broadcast.emit(`${rID}:chat`, `${data} joined the game`);
-    });
+    })
 
     socket.on(`${rID}:chat`, (data) => {
       socket.broadcast.emit(`${rID}:chat`, data);
@@ -18,7 +18,7 @@ io.on("connection", async (socket) => {
 
     socket.on(`${rID}:disconnect`, (data) => {
       socket.broadcast.emit(`${rID}:chat`, `${data} left the game`);
-    });
+    })
   });
 });
 
@@ -86,6 +86,23 @@ RoomController.get("/chat/re", async (req: Request, res: Response) => {
   try {
     res.json(await RoomService.repopulateChatRooms());
   } catch (err) {
+    return res.status(500).send(`${err}`);
+  }
+});/* Codes below are for testing purposes */
+RoomController.delete("/", async (req: Request, res: Response) => {
+  try {
+    res.json(await RoomService.deleteRoom(req.body.id));
+  }
+  catch (err){
+    return res.status(500).send(`${err}`);
+  }
+});
+
+RoomController.get("/chat", async (req: Request, res: Response) => {
+  try{
+    res.json(await RoomService.getChatRooms());
+  }
+  catch (err){
     return res.status(500).send(`${err}`);
   }
 });
