@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 class RoomService {
   private static prisma = new PrismaClient();
+  public static readonly chatRooms: String[] = [];
 
   private static async getRoomsInfo(
     rooms: any[],
@@ -74,6 +75,7 @@ class RoomService {
         },
       });
       await this.prisma.$disconnect();
+      this.chatRooms.push(createdRoom.id);
       // return the id
       return { roomId: createdRoom.id };
     } catch (error) {
@@ -194,8 +196,32 @@ class RoomService {
    */
   public static async deleteRoom(id: string) {
     const res = await this.prisma.room.delete({ where: { id: id } });
+    const roomToDelete = this.chatRooms.indexOf(id);
+    if (roomToDelete !== -1) this.chatRooms.splice(roomToDelete, 1);
     await this.prisma.$disconnect();
     return res;
+  }
+
+  public static async repopulateChatRooms(){
+    const chatRoomBackup = this.chatRooms;
+    this.chatRooms.splice(0, this.chatRooms.length);
+    try{
+      const res = await this.prisma.room.findMany({select:{ id:true }});
+      res.map(data => {
+        console.log(data.id)
+        this.chatRooms.push(data.id)
+      })
+      
+      return { repopulated: this.chatRooms }
+    }
+    catch(err){
+      this.chatRooms.concat(chatRoomBackup)
+      return err
+    }
+  }
+
+  public static async getChatRooms() {
+    return this.chatRooms;
   }
 }
 
