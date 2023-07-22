@@ -201,6 +201,28 @@ class RoomService {
     await this.prisma.$disconnect();
     return res;
   }
+
+  public static async repopulateChatRooms(){
+    const chatRoomBackup = this.chatRooms;
+    this.chatRooms.splice(0, this.chatRooms.length);
+    try{
+      const res = await this.prisma.room.findMany({select:{ id:true }});
+      res.map(data => {
+        console.log(data.id)
+        this.chatRooms.push(data.id)
+      })
+      
+      return { repopulated: this.chatRooms }
+    }
+    catch(err){
+      this.chatRooms.concat(chatRoomBackup)
+      return err
+    }
+  }
+
+  public static async getChatRooms() {
+    return this.chatRooms;
+  }
 }
 
 export default RoomService;
