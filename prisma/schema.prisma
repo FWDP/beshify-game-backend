@@ -25,10 +25,18 @@ model Player {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   playerName String
   createdAt DateTime @default(now()) @db.Date
-  statement String?
+  statements Statement[]
   roomId String? @unique @db.ObjectId
   room Room? @relation(fields: [roomId], references: [id])
 }
 
+model Statement {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now()) @db.Date
+  text String
+  votes Int
+  playerId String @unique @db.ObjectId
+  player Player @relation(fields: [playerId], references: [id])
+}
 
 // Room and Player collections have a four (4) hour TimeToLive (expiration)

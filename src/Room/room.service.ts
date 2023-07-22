@@ -99,16 +99,26 @@ class RoomService {
   public static async getRoom(name: string) {
     const room = await this.prisma.room.findFirst({
       where: { roomName: name },
-    });
-    let data = [];
-    const players = await this.prisma.player.findMany({
-      where: {
-        roomId: room?.id,
+      include: {
+        players: {
+          include: {
+            statements: true,
+          },
+        },
       },
     });
-    for (const { playerName, statement } of players) {
-      data.push({ playerName, statement });
+
+    if (!room) {
+      return { errors: [{ msg: "Room not found" }] };
     }
+
+    const data = room.players.map((player) => {
+      return {
+        playerName: player.playerName,
+        statements: player.statements.map((statement) => statement.text),
+      };
+    });
+
     await this.prisma.$disconnect();
     return data;
   }
