@@ -196,6 +196,8 @@ class RoomService {
    */
   public static async deleteRoom(id: string) {
     const res = await this.prisma.room.delete({ where: { id: id } });
+    const roomToDelete = this.chatRooms.indexOf(id);
+    if (roomToDelete !== -1) this.chatRooms.splice(roomToDelete, 1);
     await this.prisma.$disconnect();
     return res;
   }
