@@ -10,17 +10,16 @@ class PlayerService {
    */
   public static async createPlayer(player: Player) {
     const { statements, ...playerDefault } = player;
+    const existingPlayer = await this.prisma.player.findFirst({
+      where: {
+        playerName: player.playerName,
+      },
+    });
     const playerInfo = await this.prisma.player.create({
       data: {
         ...playerDefault,
         roomId: null,
         createdAt: new Date(),
-      },
-    });
-
-    const existingPlayer = await this.prisma.player.findFirst({
-      where: {
-        playerName: player.playerName,
       },
     });
 
