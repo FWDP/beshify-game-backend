@@ -74,6 +74,7 @@ class RoomService {
         },
       });
       await this.prisma.$disconnect();
+      this.chatRooms.push(createdRoom.id);
       // return the id
       return { roomId: createdRoom.id };
     } catch (error) {
