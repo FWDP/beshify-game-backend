@@ -1,5 +1,5 @@
-export const statementSchema = {
-  text: {
+export const VoteSchema = {
+  statementId: {
     errorMessage: "There should be a statement!",
     isLength: {
       options: {
@@ -7,12 +7,15 @@ export const statementSchema = {
       },
     },
   },
-  playerName: {
-    errorMessage: "There should be a player name!",
+  reaction: {
+    errorMessage: "There should be a valid reaction!",
     isLength: {
       options: {
         min: 1,
       },
+    },
+    isIn: {
+      options: [["🤸", "✨", "❌"]],
     },
   },
 };
