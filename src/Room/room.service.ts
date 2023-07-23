@@ -1,3 +1,4 @@
+import { addHours } from "../utils/addHours";
 import { Room } from "./room.model";
 import { PrismaClient } from "@prisma/client";
 
@@ -31,7 +32,7 @@ class RoomService {
   public static async createRoom(room: Room) {
     const roomDefault = {
       ...room,
-      createdAt: new Date(),
+      expiresAt: addHours(4, new Date()),
     };
     const existingRoom = await this.prisma.room.findFirst({
       where: {
