@@ -3,6 +3,7 @@ import RoomService from "./room.service";
 import { checkSchema, validationResult } from "express-validator";
 import { createRoomSchema, joinRoomSchema } from "./room.schema";
 import { io } from "../server";
+import { encode } from "html-entities";
 
 const RoomController: Router = Router();
 
@@ -13,7 +14,10 @@ io.on("connection", async (socket) => {
     })
 
     socket.on(`${rID}:chat`, (data) => {
-      socket.broadcast.emit(`${rID}:chat`, data);
+      socket.broadcast.emit(`${rID}:chat`, {
+        ...data,
+        msg: encode(data.msg)
+      });
     });
 
     socket.on(`${rID}:disconnect`, (data) => {
@@ -34,7 +38,11 @@ RoomController.post("/", async (req: Request, res: Response) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const data = await RoomService.createRoom(req.body);
+    const data = await RoomService.createRoom({
+      ...req.body,
+      roomName: req.body.roomName,
+      hostName: req.body.hostName
+    });
     if (data.errors) {
       return res.status(400).json({ errors: data.errors });
     }
@@ -54,7 +62,10 @@ RoomController.patch("/", async (req: Request, res: Response) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const data = await RoomService.joinRoom(req.body);
+    const data = await RoomService.joinRoom({
+      ...req.body,
+      playerName: encode(req.body.playerName)
+    });
     if (data.errors) {
       return res.status(400).json({ errors: data.errors });
     }
