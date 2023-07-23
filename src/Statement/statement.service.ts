@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { addHours } from "../utils/addHours";
 
 class StatementService {
   private static prisma = new PrismaClient();
@@ -28,7 +29,7 @@ class StatementService {
         data: {
           text: text,
           votes: 0,
-          createdAt: new Date(),
+          expiresAt: addHours(4, new Date()) ,
           player: {
             connect: {
               id: player.id,

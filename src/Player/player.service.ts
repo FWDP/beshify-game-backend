@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Player } from "./player.model";
+import { addHours } from "../utils/addHours";
 
 class PlayerService {
   private static prisma = new PrismaClient();
@@ -19,7 +20,7 @@ class PlayerService {
       data: {
         ...playerDefault,
         roomId: null,
-        createdAt: new Date(),
+        expiresAt: addHours(4, new Date()),
       },
     });
 
