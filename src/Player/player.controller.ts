@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { userSchema } from "./player.schema";
 import { checkSchema, validationResult } from "express-validator";
 import PlayerService from "./player.service";
+import { encode } from "html-entities";
 
 const PlayerController: Router = Router();
 
@@ -13,7 +14,7 @@ PlayerController.post("/", async (req: Request, res: Response) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const data = await PlayerService.createPlayer(req.body);
+    const data = await PlayerService.createPlayer({playerName: encode(req.body.playerName), statements: []});
     if (data.errors) {
       return res.status(400).json({ errors: data.errors });
     }
