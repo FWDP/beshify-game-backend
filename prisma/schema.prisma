@@ -16,7 +16,7 @@ model Room {
   password String
   roomSize Int
   timeLimit Int
-  createdAt DateTime @default(now()) @db.Date
+  expiresAt DateTime @db.Date
   hostName String
   players Player[]
 }
@@ -24,7 +24,7 @@ model Room {
 model Player {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   playerName String
-  createdAt DateTime @default(now()) @db.Date
+  expiresAt DateTime @db.Date
   statements Statement[]
   roomId String? @unique @db.ObjectId
   room Room? @relation(fields: [roomId], references: [id])
@@ -32,7 +32,7 @@ model Player {
 
 model Statement {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now()) @db.Date
+  expiresAt DateTime @db.Date
   text String
   votes Int
   playerId String @unique @db.ObjectId
