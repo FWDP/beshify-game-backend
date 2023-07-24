@@ -20,7 +20,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Beshify API");
 });
 
-import { AppModule } from "./server.module";
+import { AppModule } from "./serverModule";
 AppModule.Load(app);
 if (process.env.NODE_ENV !== "production") {
   console.log("dev mode");
