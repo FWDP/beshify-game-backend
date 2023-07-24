@@ -1,0 +1,8 @@
+[build]
+  command = "npm run build" # Replace this with your build command
+  functions = "src" # Path to your serverless functions directory
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
