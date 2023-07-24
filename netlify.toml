@@ -1,6 +1,6 @@
 [build]
   command = "npm run build" # Replace this with your build command
-  functions = "src" # Path to your serverless functions directory
+  functions = "dist" # Path to your serverless functions directory
 
 [[redirects]]
   from = "/*"
