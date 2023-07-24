@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "builds": [{ "src": "src/**/*.ts", "use": "@now/node" }],
+  "builds": [{ "src": "src/**/*.ts", "use": "@vercel/node" }],
   "routes": [
     { "src": "/api/.*", "dest": "src/server.ts" },
     { "src": "/(.*)", "dest": "src/server.ts" }
