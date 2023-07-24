@@ -29,7 +29,6 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
-console.log("test for vercel");
 // Export the Express app as a function for Vercel
 export default (req: Request, res: Response) => {
   // Allow only GET requests for the root path ("/")
