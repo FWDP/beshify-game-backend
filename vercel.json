@@ -1,13 +1,10 @@
 {
   "version": 2,
   "routes": [{ "src": "/(.*)", "dest": "/index.js" }],
-  "builds": {
-    "source": "src/app.ts",
-    "output": "dist/app.js",
-    "command": "npm run build",
-    "functions": {
-      "src": "src/*.ts",
-      "output": "dist/*.js"
+  "builds": [
+    {
+      "src": "src/",
+      "use": "@vercel/node"
     }
-  }
+  ]
 }
