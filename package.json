@@ -5,8 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc",
-    "start": "node dist/index.js",
+    "build": "set NODE_ENV=production && npm run build:prisma && npm run build:app",
+    "build:prisma": "prisma generate",
+    "build:app": "npx tsc",
+    "start": "node dist/server.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
     "format": "npx prettier ./src --write",
     "commit": "cz"

@@ -1,7 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
-
 const app: Express = express();
 const httpServer = createServer(app);
 
@@ -12,7 +11,7 @@ export const io = new Server(httpServer, {
   },
 });
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -20,7 +19,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Beshify API");
 });
 
-import { AppModule } from "./server.module";
+import { AppModule } from "./serverModule";
 AppModule.Load(app);
 
 httpServer.listen(port, () => {
