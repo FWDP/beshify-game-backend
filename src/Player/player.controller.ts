@@ -6,6 +6,20 @@ import { encode } from "html-entities";
 
 const PlayerController: Router = Router();
 
+PlayerController.get("/:name", async (req: Request, res: Response) => {
+  try {
+    const data = await PlayerService.getPlayer(req.params["name"]);
+    if (data.errors) {
+      return res.status(400).json({ errors: data.errors });
+    }
+
+    res.status(201);
+    return res.json(data);
+  } catch (err) {
+    return res.status(500).send(`${err}`);
+  }
+});
+
 PlayerController.post("/", async (req: Request, res: Response) => {
   try {
     await checkSchema(userSchema).run(req);
@@ -14,7 +28,10 @@ PlayerController.post("/", async (req: Request, res: Response) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const data = await PlayerService.createPlayer({playerName: encode(req.body.playerName), statements: []});
+    const data = await PlayerService.createPlayer({
+      playerName: encode(req.body.playerName),
+      statements: [],
+    });
     if (data.errors) {
       return res.status(400).json({ errors: data.errors });
     }
