@@ -35,20 +35,18 @@ class PlayerService {
   //     await this.prisma.$disconnect();
   //     return res;
   //   }
-  //   public static async getRoom(name: string) {
-  //     const res = await this.prisma.room.findMany({
-  //       where: {
-  //         roomName: {
-  //           contains: name,
-  //         },
-  //       },
-  //     });
-  //     if (!res) {
-  //       return { errors: [{ msg: "Room doesn't exists!" }] };
-  //     }
-  //     await this.prisma.$disconnect();
-  //     return res;
-  //   }
+  public static async getPlayer(name: string) {
+    const res = await this.prisma.player.findFirst({
+      where: {
+        playerName: name,
+      },
+    });
+    if (!res) {
+      return { errors: [{ msg: "Player doesn't exist!" }] };
+    }
+    await this.prisma.$disconnect();
+    return { ...res };
+  }
   // public static async deletePlayer(id: string) {
   //   const res = await this.prisma.player.delete({ where: { id: id } });
   //   await this.prisma.$disconnect();
